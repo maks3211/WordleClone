@@ -21,16 +21,14 @@ class Grid extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
           itemCount: level * 6,
-          // Możesz teraz kontrolować ilość elementów na podstawie `notifier.level`
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: level,
-            // Kontroluj liczbę kolumn za pomocą poziomu z kontrolera
             crossAxisSpacing: 4,
             mainAxisSpacing: 4,
           ),
           itemBuilder: (context, index) {
 
-            
+
             return Consumer<Controller>(
               builder:(_, notifier, __) {
                 bool animate = false;

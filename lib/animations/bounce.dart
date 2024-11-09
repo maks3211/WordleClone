@@ -32,7 +32,7 @@ class _State extends State<Bounce> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  @override
+/*  @override
   void didUpdateWidget(covariant Bounce oldWidget) {
     if(widget.aniamte)
       {
@@ -40,7 +40,23 @@ class _State extends State<Bounce> with SingleTickerProviderStateMixin {
         _animationController.forward();
       }
     super.didUpdateWidget(oldWidget);
+  }*/
+
+  @override
+  void didUpdateWidget(covariant Bounce oldWidget) {
+    if(widget.aniamte)
+      {
+        WidgetsBinding.instance.addPostFrameCallback((timestamp){
+          if(mounted)
+            {
+              _animationController.reset();
+              _animationController.forward();
+            }
+        });
+      }
+    super.didUpdateWidget(oldWidget);
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -43,7 +43,10 @@ class _WinState extends State<Win> with SingleTickerProviderStateMixin {
     if(widget.animate)
       {
         Future.delayed(Duration(milliseconds: widget.delay), (){  //tutaj tez przeliczanie na podstawie poziomu
-          _controller.forward();
+          if(mounted)
+            {
+              _controller.forward();
+            }
         });
 
       }

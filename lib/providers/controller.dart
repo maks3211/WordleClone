@@ -12,7 +12,7 @@ class Controller extends ChangeNotifier {
       gameCompleted = false,
       notEnoughLetters = false;
   String correctWord = "";
-  int level;  //Tutaj wybór ilości liter
+  int level;
   int currentTile = 0, currentRow = 0;
   List<TileModel> tilesEntered = [];
 
@@ -20,17 +20,31 @@ Controller({required this.level});
 
   setLevel({required int newLevel})
   {
-
     level = newLevel;
-    print("ustawiono poziom: $level");
     notifyListeners();
   }
 
   setCorrectWord({required String word}) => correctWord = word;
 
-  setKeyTapped({required String value}) {
-    print("cos klikneło: $level");
+  startNewGame({required String word, required int lvl}) {
+    //warunek czy wznawiac gre? i jakiaś zmienna ktora zwraca czy jest w ogole taka mozliwosc
+    //po to aby pokazywac przycisk
+    keysMap.updateAll( (key, value) => value = AnswerStage.notAnswered);
+    checkLine = false;
+    backOrEnterTapped = false;
+    gameWon = false;
+    gameCompleted = false;
+    notEnoughLetters = false;
+    correctWord = "";
+    currentTile = 0;
+    currentRow = 0;
+    tilesEntered = [];
+    correctWord = word;
+    level = lvl;
+    notifyListeners();
+  }
 
+  setKeyTapped({required String value}) {
     if (value == 'ENTER') {
       backOrEnterTapped = true;
       if (currentTile == level * (currentRow + 1)) {

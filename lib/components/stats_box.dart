@@ -1,9 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wordle_app/components/win_chart.dart';
 import 'package:wordle_app/components/level_picker.dart';
 import 'package:wordle_app/models/chart_model.dart';
 import 'package:wordle_app/pages/home_page.dart';
+import 'package:wordle_app/pages/main_page.dart';
+import 'package:wordle_app/providers/level_Provider.dart';
 import 'package:wordle_app/utils/calculate_stats.dart';
 import 'package:wordle_app/components/stats_tile.dart';
 import 'package:wordle_app/constants/answer_stages.dart';
@@ -24,8 +27,7 @@ import '../providers/theme_provider.dart';
 
 class StatsBox extends StatelessWidget {
 
-   const StatsBox({super.key}); //const
-
+   const StatsBox({super.key, }); //const
 
 
 
@@ -53,65 +55,34 @@ class StatsBox extends StatelessWidget {
                    }
                return Row(
               children: [
-                StatsTile(value : int.parse(results[0]), valueName:  "Rozegrane"),
-                StatsTile(value : int.parse(results[2]), valueName:  "%\nWygranych"),
-                StatsTile(value : int.parse(results[3]), valueName:  "Obenca\nPassa"),
-                StatsTile(value : int.parse(results[4]), valueName:  "Najlepsza\nPassa"),
+                StatsTile(value : int.parse(results[0]), valueName:  "Rozegrane", fontSize: 50),
+                StatsTile(value : int.parse(results[2]), valueName:  "%\nWygranych", fontSize: 15),
+                StatsTile(value : int.parse(results[3]), valueName:  "Obenca\nPassa", fontSize: 30),
+                StatsTile(value : int.parse(results[4]), valueName:  "Najlepsza\nPassa", fontSize: 50),
               ],
                        );
              },
            ),),
-          SizedBox(
-            height: 320,
-            width: 100,
-            child: FutureBuilder<List<BarChartGroupData>>(
-              future: getSeries(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Błąd: ${snapshot.error}'));
-                } else if (snapshot.hasData && snapshot.data != null) {
-                  final series = snapshot.data!;
-                  return BarChart(
-                    BarChartData(
-                      barTouchData: barTouchData,
-                      barGroups: series,
-                      titlesData: const FlTitlesData(
-                          show: true,
-                      leftTitles: AxisTitles(
-                        sideTitles: SideTitles( showTitles: false)
-                      ),
-                        rightTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false)
-                        ),
-                        topTitles: AxisTitles(
-                          sideTitles:  SideTitles(showTitles:  false)
-                        )
-                      ),
-                      // dodaj tytuły, jeśli chcesz
-                      borderData: FlBorderData(show: false),
-                      gridData:  const FlGridData(show: false)// usuń obramowanie, jeśli niepotrzebne
-                    ),
-                  );
-                } else {
-                  return const SizedBox(); // Pusty widget w przypadku braku danych
-                }
-              },
-            ),
-          ),
+
+          const SizedBox(width: 1, height: 200,  child: WinChart()),
+          const Expanded(child: LevelPicker()),
           Expanded(child: ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
             onPressed: (){
-              keysMap.updateAll( (key, value) => value = AnswerStage.notAnswered);
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage(title: "Wordle")),
+                      (route) => route.settings.name == '/' // Zachowuje MainPage
+              );
+             // Navigator.of(context).pop(); // Zamyka StatsBox
+              //rowiazanie pierwotne
+             // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
             },
               child: const Text('Nowa Gra', style: TextStyle(fontSize: 30)),
             ),
           ),
-          const Expanded(child: LevelPicker()),//aktualnie działa na zasaszie zamkniecia wszystkiego do momentu gdy jest na tym oknie z main
-        ],
 
+        ],
       ),
 
     );

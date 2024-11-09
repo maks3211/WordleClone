@@ -11,12 +11,20 @@ import 'package:wordle_app/constants/colors.dart';
 import 'package:wordle_app/models/chart_model.dart';
 
 
-Future<List<BarChartGroupData>> getSeries() async
+Future<List<BarChartGroupData>> getSeries({required int level}) async
 {
+
 List<ChartModel> data = [];
 final  preferences = await SharedPreferences.getInstance();
-final scores = preferences.getStringList('chart');
+final scores = preferences.getStringList('chart$level');
 final row = preferences.getInt('row');
+if(scores == null)
+  {
+    for (var i = 0; i < 6; i++) {
+      data.add(ChartModel(score: 0, currentGame: false));
+    }
+  }
+
 if (scores != null)
   {
     for(var e in scores)
@@ -28,7 +36,6 @@ if (row != null && row > 0)
   {
     data[row - 1].currentGame = true;
   }
-
 List<BarChartGroupData> barGroups = data.asMap().entries.map((entry){
   int index = entry.key;
   ChartModel model = entry.value;
@@ -39,7 +46,6 @@ List<BarChartGroupData> barGroups = data.asMap().entries.map((entry){
       BarChartRodData(toY: model.score.toDouble(),
       color: model.currentGame ? const Color(0xFF6BAA64) : const Color(0xFF3F453F),
           width: 22,
-
       ),
     ]
   );

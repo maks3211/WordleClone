@@ -4,11 +4,13 @@ class StatsTile extends StatelessWidget {
   const StatsTile({
     required this.valueName,
     required this.value,
+    required this.fontSize,
     super.key,
   });
 
   final String valueName;
   final int value;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class StatsTile extends StatelessWidget {
                   valueName,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.normal,
-                    fontSize: 50,
+                    fontSize: fontSize,
                   ),
                   textAlign: TextAlign.center,
                 ),

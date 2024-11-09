@@ -4,7 +4,7 @@ setChartStats({required int currentRow, required int level})async
 {
   List<int> distribution = [0,0,0,0,0,0];
 
-  final stats = await getStats();
+  final stats = await getStats(level: level);
 
   if(stats != null)
     {
@@ -25,22 +25,27 @@ setChartStats({required int currentRow, required int level})async
   //zapisanie 1- w którym rzedzie wygrana aktualna gra 2- przechowuje liste ilosci
   //wszystkiech wyhranych w danej probie
   preferences.setInt('row', currentRow);
-  preferences.setStringList('chart', stringList);
+  preferences.setStringList('chart$level', stringList);
 
 }
 
 
-Future<List<int>?> getStats() async {
+Future<List<int>?> getStats({required int level}) async {
   final prefs = await SharedPreferences.getInstance();
-  final stats = prefs.getStringList('chart');
-  if (stats != null) {
-    List<int> result = [];
-    for (var e in stats) {
+  final stats = prefs.getStringList('chart$level');
+  List<int> result = [];
+  if (stats != null)
+  {
+    for (var e in stats)
+    {
       result.add(int.parse(e));
     }
     return result;
-  } else {
-    return null;
   }
-
+  else
+  {
+    for (var i = 0; i < 6; i++) {
+      result.add(i);
+    }
+  }
 }

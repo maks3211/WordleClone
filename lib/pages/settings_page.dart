@@ -31,7 +31,8 @@ class SettingsPage extends StatelessWidget {
             builder:(_,notifier,__) {
               bool _isDarkMode = false;  //used for theme settings
               _isDarkMode = notifier.isDark;
-              return SwitchListTile(value: _isDarkMode, onChanged: (value){
+              return SwitchListTile(title: const Text("Tryb Ciemny"), value: _isDarkMode, onChanged: (value){
+
                 _isDarkMode = value;
             ThemePreferences.saveTheme(isDark: _isDarkMode);
             Provider.of<ThemeProvider>(context, listen: false).setTheme(dark: _isDarkMode);
@@ -43,6 +44,7 @@ class SettingsPage extends StatelessWidget {
             onTap: ()async{
               final prefs = await SharedPreferences.getInstance();
               prefs.remove('stats');
+              //TODO RESETOWANIE STATYSTYK Z WYKRESÓW
               showDialog(context: context, builder: (context)=> const AlertDialog(
                 title: Text("Zresetowano statystyki", textAlign: TextAlign.center,),));
             },
