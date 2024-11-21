@@ -27,37 +27,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   late String _word;
+  late Future<String> _wordFuture;
 
   @override
   void initState()
   {
-  /*final r = Random().nextInt(words.length);   //LOSOWANIE slowa
-   final v =3 + Random().nextInt(3);   //LOSOWANIE slowa
-  _word = words[r];
-   WidgetsBinding.instance.addPostFrameCallback((timeStamp){
-    final levels = Provider.of<LevelProvider>(context, listen: false).level;
-    _word = getWord(level: levels.toInt());
-    print("--------------WYLOSOWANE SLOWO: $_word --------------");
-    Provider.of<Controller>(context, listen: false).startNewGame(word: _word, lvl: levels.toInt());
-    });*/
-    resetGame();
+    //resetGame();
     super.initState();
-
+    int levels = Provider.of<LevelProvider>(context, listen: false).level.toInt();
+    _wordFuture = fetchWord(level: levels);
   }
 
 
-  void resetGame() {
+  void resetGame(String word) {
     // Logika do zresetowania gry
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp){
+    final levels = Provider.of<LevelProvider>(context, listen: false).level;
+    print("--------------WYLOSOWANE SLOWO: $word --------------");
 
-      final levels = Provider.of<LevelProvider>(context, listen: false).level;
-      _word = getWord(level: levels.toInt());
-      print("--------------WYLOSOWANE SLOWO: $_word --------------");
-      Provider.of<Controller>(context, listen: false).startNewGame(word: _word, lvl: levels.toInt());
-    });
-    print("Nowa Gra rozpoczęta!");
+    Provider.of<Controller>(context, listen: false).startNewGame(word: word.toUpperCase(), lvl: levels.toInt());
   }
 
 
@@ -68,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
         centerTitle: true,
-        elevation:0,
+        elevation: 0,
         actions: [
           Consumer<Controller>(
             builder: (_, notifier, __) {
@@ -76,14 +64,11 @@ class _HomePageState extends State<HomePage> {
                 runQuickPopup(context: context, message: 'Za mało liter');
               }
               if (notifier.gameCompleted) {
-                if (notifier.gameWon)
-                {
-                    runQuickPopup(context: context, message: 'Wygrana!');
-                    notifier.gameCompleted = false;
-                }
-                else
-                {
-                  runQuickPopup(context: context, message: "Poprawna odpowiedź: "+notifier.correctWord);
+                if (notifier.gameWon) {
+                  runQuickPopup(context: context, message: 'Wygrana!');
+                  notifier.gameCompleted = false;
+                } else {
+                  runQuickPopup(context: context, message: "Poprawna odpowiedź: " + notifier.correctWord);
                   notifier.gameCompleted = false;
                 }
                 Future.delayed(
@@ -97,39 +82,60 @@ class _HomePageState extends State<HomePage> {
                 );
               }
               return IconButton(
-                  onPressed: () async {
-                    showDialog(
-                        context: context, builder: (_) => const StatsBox());
-                  },
-                  icon: const Icon(Icons.bar_chart_outlined));
+                onPressed: () async {
+                  showDialog(context: context, builder: (_) => const StatsBox());
+                },
+                icon: const Icon(Icons.bar_chart_outlined),
+              );
             },
           ),
-          IconButton(onPressed: (){
-           Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  SettingsPage()));
-          },
-              icon: const Icon(Icons.settings)
-          )
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+            },
+            icon: const Icon(Icons.settings),
+          ),
         ],
       ),
-      body: const Column(
-        children: [
-          Divider(),
-          Expanded(
-            flex : 7,
-            child: Grid()),
-          Expanded(
-            flex: 4,
-            child: Column(
+      body: FutureBuilder<String>(
+        future: _wordFuture, // Przyszłość, która ładuje dane
+        builder: (context, snapshot) {
+          // Jeśli dane są ładowane
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          // Jeśli wystąpił błąd
+          if (snapshot.hasError) {
+            return Center(child: Text('Błąd pobierania słowa.'));
+          }
+
+          // Jeśli dane zostały załadowane
+          if (snapshot.hasData) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              resetGame(snapshot.data!); // Przekazujemy pobrane słowo do resetGame
+            });
+            return Column(
               children: [
-                KeyboardRow(min: 1, max:10),
-                KeyboardRow(min: 11, max:19),
-                KeyboardRow(min: 20, max:29),
+                Divider(),
+                Expanded(flex: 7, child: Grid()),
+                Expanded(
+                  flex: 4,
+                  child: Column(
+                    children: [
+                      KeyboardRow(min: 1, max: 10),
+                      KeyboardRow(min: 11, max: 19),
+                      KeyboardRow(min: 20, max: 29),
+                    ],
+                  ),
+                ),
               ],
-            )),
+            );
+          }
 
-
-        ],
-      )
+          return Center(child: Text("Brak danych"));
+        },
+      ),
     );
   }
 }

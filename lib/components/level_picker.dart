@@ -29,6 +29,7 @@ class _LevelPickerState extends State<LevelPicker> {
             min: 4,
             max: 8,
             divisions: 4,
+            activeColor: Colors.green,
             onChanged: (double value) {
               notifier.updateLevel(value);
             },

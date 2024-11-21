@@ -93,7 +93,7 @@ Controller({required this.level});
       for (int i = 0; i < level; i++) {
         if (guessedWord[i] == correctWord[i]) {
           remainingCorrect.remove(guessedWord[i]);
-          tilesEntered[i + (currentRow * 5)].answerStage = AnswerStage.correct;
+          tilesEntered[i + (currentRow * level)].answerStage = AnswerStage.correct;
           keysMap.update(guessedWord[i], (value) => AnswerStage.correct);
         }
       }
@@ -135,7 +135,8 @@ Controller({required this.level});
     currentRow++;
     checkLine = true;
 
-    if(currentRow == level + 1 )
+    //if(currentRow == level + 1 )
+    if(currentRow == 6 )
       {
         gameCompleted = true;
       }

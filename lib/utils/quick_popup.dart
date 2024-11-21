@@ -7,7 +7,7 @@ runQuickPopup({required BuildContext context, required String message}) {
         barrierColor: Colors.transparent,
         context: context,
         builder: (context) {
-          Future.delayed(const Duration(milliseconds: 1000), () {
+          Future.delayed(const Duration(milliseconds: 1200), () {
             Navigator.maybePop(context);
           });
           return AlertDialog(

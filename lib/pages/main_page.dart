@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordle_app/components/level_picker.dart';
 import 'package:wordle_app/pages/home_page.dart';
+import 'package:wordle_app/pages/login_page.dart';
 import 'package:wordle_app/pages/settings_page.dart';
 
 
@@ -25,11 +26,11 @@ class MainPage extends StatelessWidget {
               ),
             ),
           ),
+
                Padding(
                  padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                  child: ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.white12, minimumSize: Size(200,60)),
-                 
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage(title: "Wordle")));
                     },
@@ -41,11 +42,33 @@ class MainPage extends StatelessWidget {
                   ),
                ),
           const Expanded(child: LevelPicker()),
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
-            },
-            icon: const Icon(Icons.settings),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.white12, minimumSize: Size(200,60)),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+              },
+              child: Text("Ustawienia",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 60),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.white12, minimumSize: Size(200,60)),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+              },
+              child: Text("Logowanie",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontSize: 20,
+                ),
+              ),
+            ),
           ),
         ],
       )

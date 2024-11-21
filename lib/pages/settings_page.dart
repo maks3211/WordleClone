@@ -28,15 +28,17 @@ class SettingsPage extends StatelessWidget {
       body: Column(
         children: [
           Consumer<ThemeProvider>(
-            builder:(_,notifier,__) {
-              bool _isDarkMode = false;  //used for theme settings
-              _isDarkMode = notifier.isDark;
-              return SwitchListTile(title: const Text("Tryb Ciemny"), value: _isDarkMode, onChanged: (value){
-
-                _isDarkMode = value;
-            ThemePreferences.saveTheme(isDark: _isDarkMode);
-            Provider.of<ThemeProvider>(context, listen: false).setTheme(dark: _isDarkMode);
-            });
+            builder:(_,notifier,__)
+            {
+              bool isDarkMode = false;  //used for theme settings
+              isDarkMode = notifier.isDark;
+              return SwitchListTile(title: const Text("Tryb Ciemny"),
+                activeColor: Colors.green,
+                value: isDarkMode, onChanged: (value){
+                isDarkMode = value;
+                ThemePreferences.saveTheme(isDark: isDarkMode);
+                Provider.of<ThemeProvider>(context, listen: false).setTheme(dark: isDarkMode);
+                });
             },
           ),
           ListTile(

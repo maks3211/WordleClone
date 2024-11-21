@@ -78,7 +78,11 @@ class StatsBox extends StatelessWidget {
               //rowiazanie pierwotne
              // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
             },
-              child: const Text('Nowa Gra', style: TextStyle(fontSize: 30)),
+            child: Text("Nowa Gra",
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontSize: 30,
+              ),
+            ),
             ),
           ),
 
