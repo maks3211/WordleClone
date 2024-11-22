@@ -1,10 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
 //uzywane tylko w momencie gdy jest wygrana gra - wywolywane w controller
-setChartStats({required int currentRow, required int level})async
+setChartStats({required int currentRow, required int level, required String user})async
 {
   List<int> distribution = [0,0,0,0,0,0];
 
-  final stats = await getStats(level: level);
+  final stats = await getStats(level: level, user: user);
 
   if(stats != null)
     {
@@ -25,14 +25,14 @@ setChartStats({required int currentRow, required int level})async
   //zapisanie 1- w którym rzedzie wygrana aktualna gra 2- przechowuje liste ilosci
   //wszystkiech wyhranych w danej probie
   preferences.setInt('row', currentRow);
-  preferences.setStringList('chart$level', stringList);
+  preferences.setStringList('chart$level$user', stringList);
 
 }
 
 
-Future<List<int>?> getStats({required int level}) async {
+Future<List<int>?> getStats({required int level, required String user}) async {
   final prefs = await SharedPreferences.getInstance();
-  final stats = prefs.getStringList('chart$level');
+  final stats = prefs.getStringList('chart$level$user');
   List<int> result = [];
   if (stats != null)
   {
@@ -48,4 +48,5 @@ Future<List<int>?> getStats({required int level}) async {
       result.add(i);
     }
   }
+  return null;
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:wordle_app/providers/user_provider.dart';
 import 'package:wordle_app/utils/calculate_chart_stats.dart';
 import 'package:wordle_app/utils/calculate_stats.dart';
 import 'package:wordle_app/constants/answer_stages.dart';
@@ -13,6 +15,7 @@ class Controller extends ChangeNotifier {
       notEnoughLetters = false;
   String correctWord = "";
   int level;
+  String user ="";
   int currentTile = 0, currentRow = 0;
   List<TileModel> tilesEntered = [];
 
@@ -22,6 +25,11 @@ Controller({required this.level});
   {
     level = newLevel;
     notifyListeners();
+  }
+
+  void updateUserName(String newUsername) {
+    user = newUsername;
+    notifyListeners(); // Powiadomienie słuchaczy o zmianie
   }
 
   setCorrectWord({required String word}) => correctWord = word;
@@ -142,10 +150,11 @@ Controller({required this.level});
       }
     if(gameCompleted)
       {
-        calculateStats(isWin: gameWon);
+        calculateStats(isWin: gameWon, user:user);
         if(gameWon)
           {
-            setChartStats(currentRow: currentRow, level: level);
+            print("ZAPISYWANIE PO WYGRANEJ DLA GRACZA $user, poziom: $level");
+            setChartStats(currentRow: currentRow, level: level, user: user);
           }
 
       }

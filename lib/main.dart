@@ -9,6 +9,7 @@ import 'package:wordle_app/pages/settings_page.dart';
 import 'package:wordle_app/providers/level_provider.dart';
 import 'package:wordle_app/providers/controller.dart';
 import 'package:wordle_app/providers/theme_provider.dart';
+import 'package:wordle_app/providers/user_provider.dart';
 
 import 'package:wordle_app/utils/theme_preferences.dart';
 import 'package:wordle_app/constants/themes.dart';
@@ -20,6 +21,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LevelProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: const MyApp(),
     ),

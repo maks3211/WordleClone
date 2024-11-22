@@ -6,9 +6,14 @@ class InputBox extends StatelessWidget {
   final Color activeColor;
   final Color inactiveColor;
   final Color errorColor;
-  final bool   password;
+  final bool password;
   final String text;
   final TextEditingController controller;
+  final FormFieldValidator<String>? validator;
+  final TextInputType keyboardType;
+  final bool autoValidate;
+  final String? errorText;
+  final ValueChanged<String>? onChanged;
   const InputBox({
     super.key,
     this.activeColor = correctGreen,
@@ -17,6 +22,11 @@ class InputBox extends StatelessWidget {
     this.password = false,
     required this.text,
     required this.controller,
+    this.validator,
+    this.keyboardType = TextInputType.text,
+    this.autoValidate = false,
+    this.errorText,
+    this.onChanged,
   });
 
   @override
@@ -24,35 +34,41 @@ class InputBox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 35, 0, 0),
       child: SizedBox(
-        width: 300, // Szerokość TextField
-        child: TextField(
+        width: 300,
+        child: TextFormField(
+
           controller: controller,
           obscureText: password,
+          validator: validator,
+          autovalidateMode: autoValidate ? AutovalidateMode.onUserInteraction : AutovalidateMode.disabled,
+          keyboardType: keyboardType,
           decoration: InputDecoration(
             labelText: text,
-            // Ustawienie ramki w stanie aktywnym
+            errorText: errorText,
+            // Warunkowe ustawienie ramki
             focusedBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(12)), // Zaokrąglenie rogów
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
               borderSide: BorderSide(
-                width: 4, // Grubość ramki
-                color: activeColor
+                width: 4,
+                color: activeColor, // Jeśli jest błąd, pozostaje czerwona ramka
               ),
             ),
-            // Ustawienie ramki w stanie nieaktywnym
             enabledBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
               borderSide: BorderSide(
-                width: 4, // Grubość ramki
-                color: inactiveColor, // Kolor ramki
+                width: 4,
+                color: inactiveColor,
               ),
             ),
-            // Dodatkowa ramka w przypadku błędu (opcjonalnie)
-            errorBorder:  OutlineInputBorder(
+            errorBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
               borderSide: BorderSide(
-                width: 4, // Grubość ramki
-                color: errorColor, // Kolor ramki
+                width: 4,
+                color: errorColor,
               ),
             ),
           ),
+          onChanged: onChanged,
         ),
       ),
     );

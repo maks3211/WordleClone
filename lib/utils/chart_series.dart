@@ -11,12 +11,12 @@ import 'package:wordle_app/constants/colors.dart';
 import 'package:wordle_app/models/chart_model.dart';
 
 
-Future<List<BarChartGroupData>> getSeries({required int level}) async
+Future<List<BarChartGroupData>> getSeries({required int level, required String user}) async
 {
 
 List<ChartModel> data = [];
 final  preferences = await SharedPreferences.getInstance();
-final scores = preferences.getStringList('chart$level');
+final scores = preferences.getStringList('chart$level$user');
 final row = preferences.getInt('row');
 if(scores == null)
   {

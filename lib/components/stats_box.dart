@@ -7,6 +7,7 @@ import 'package:wordle_app/models/chart_model.dart';
 import 'package:wordle_app/pages/home_page.dart';
 import 'package:wordle_app/pages/main_page.dart';
 import 'package:wordle_app/providers/level_Provider.dart';
+import 'package:wordle_app/providers/user_provider.dart';
 import 'package:wordle_app/utils/calculate_stats.dart';
 import 'package:wordle_app/components/stats_tile.dart';
 import 'package:wordle_app/constants/answer_stages.dart';
@@ -44,25 +45,29 @@ class StatsBox extends StatelessWidget {
               Navigator.maybePop(context); //zamykanie okna statystyk
             }, icon: const Icon(Icons.clear)),
            const Text("STATYSTYKI", textAlign: TextAlign.center ,style: TextStyle(fontSize: 20), ),
-           Expanded(
-             child: FutureBuilder(
-             future: getStats(),
-             builder: (context, snapshot) {
-                 List<String> results = ['0','0','0','0','0',];
-                 if(snapshot.hasData)
-                   {
-                    results = snapshot.data as List<String>;
-                   }
-               return Row(
-              children: [
-                StatsTile(value : int.parse(results[0]), valueName:  "Rozegrane", fontSize: 50),
-                StatsTile(value : int.parse(results[2]), valueName:  "%\nWygranych", fontSize: 15),
-                StatsTile(value : int.parse(results[3]), valueName:  "Obenca\nPassa", fontSize: 30),
-                StatsTile(value : int.parse(results[4]), valueName:  "Najlepsza\nPassa", fontSize: 50),
-              ],
-                       );
-             },
-           ),),
+          Expanded(
+            child: Consumer<UserProvider>(
+              builder: (_, userProvider, __) {
+                return FutureBuilder(
+                  future: getStats(user: userProvider.username),
+                  builder: (context, snapshot) {
+                    List<String> results = ['0', '0', '0', '0', '0'];
+                    if (snapshot.hasData) {
+                      results = snapshot.data as List<String>;
+                    }
+                    return Row(
+                      children: [
+                        StatsTile(value: int.parse(results[0]), valueName: "Rozegrane", fontSize: 50),
+                        StatsTile(value: int.parse(results[2]), valueName: "%\nWygranych", fontSize: 15),
+                        StatsTile(value: int.parse(results[3]), valueName: "Obenca\nPassa", fontSize: 30),
+                        StatsTile(value: int.parse(results[4]), valueName: "Najlepsza\nPassa", fontSize: 50),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ),
 
           const SizedBox(width: 1, height: 200,  child: WinChart()),
           const Expanded(child: LevelPicker()),

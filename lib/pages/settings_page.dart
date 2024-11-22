@@ -41,7 +41,7 @@ class SettingsPage extends StatelessWidget {
                 });
             },
           ),
-          ListTile(
+          /*ListTile(
             leading: const Text('Zresetuj statystyki'),
             onTap: ()async{
               final prefs = await SharedPreferences.getInstance();
@@ -50,7 +50,7 @@ class SettingsPage extends StatelessWidget {
               showDialog(context: context, builder: (context)=> const AlertDialog(
                 title: Text("Zresetowano statystyki", textAlign: TextAlign.center,),));
             },
-          )
+          )*/
         ],
       ),
     );

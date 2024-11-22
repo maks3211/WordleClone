@@ -1,13 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-calculateStats({required bool isWin}) async{
+calculateStats({required bool isWin, required String user}) async{
   int gamesPlayed = 0;
   int gamesWon = 0;
   int winPercentage = 0;
   int currentStreak = 0;
   int maxStreak = 0;
 
-  final stats = await getStats();
+  final stats = await getStats(user : user);
   if(stats != null)
     {
     gamesPlayed = int.parse(stats[0]);
@@ -34,7 +34,7 @@ calculateStats({required bool isWin}) async{
   winPercentage = ( (gamesWon / gamesPlayed) * 100).toInt();
 
   final preferences = await SharedPreferences.getInstance();
-  preferences.setStringList('stats',
+  preferences.setStringList('stats$user',
   [
     gamesPlayed.toString(),
     gamesWon.toString(),
@@ -45,9 +45,9 @@ calculateStats({required bool isWin}) async{
 }
 
 ///Returns a list of statistics -> for now there is just a one player, later it's should check player name
-Future<List<String>?>getStats () async{
+Future<List<String>?>getStats ({required String user}) async{
   final preferences = await SharedPreferences.getInstance();
-  final stats = preferences.getStringList('stats');
+  final stats = preferences.getStringList('stats$user');
   if(stats != null)
     {
     return stats;
