@@ -58,12 +58,6 @@ class _LoginRegPageState extends State<LoginRegPage> {
     return await SecurePreferencesHelper().getLoginCredentials(username) == password;
   }
 
-
-
-
-
-
-
   // Funkcja walidacji dla hasła
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
@@ -124,7 +118,7 @@ class _LoginRegPageState extends State<LoginRegPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        duration: Duration(seconds: 2), // Czas trwania komunikatu
+        duration: Duration(seconds: 2),
       ),
     );
   }
@@ -187,7 +181,6 @@ class _LoginRegPageState extends State<LoginRegPage> {
                 // Przycisk do zmiany trybu: logowanie/rejestracja
                 TextButton(
                   onPressed: () {
-                    print("KLIKK");
                     setState(() {
                       _isRegistering = !_isRegistering;
                     });

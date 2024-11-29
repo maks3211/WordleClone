@@ -35,8 +35,7 @@ Controller({required this.level});
   setCorrectWord({required String word}) => correctWord = word;
 
   startNewGame({required String word, required int lvl}) {
-    //warunek czy wznawiac gre? i jakiaś zmienna ktora zwraca czy jest w ogole taka mozliwosc
-    //po to aby pokazywac przycisk
+
     keysMap.updateAll( (key, value) => value = AnswerStage.notAnswered);
     checkLine = false;
     backOrEnterTapped = false;
@@ -158,7 +157,6 @@ Controller({required this.level});
           }
 
       }
-
     notifyListeners();
   }
 }

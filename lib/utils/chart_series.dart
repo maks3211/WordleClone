@@ -8,6 +8,7 @@ import 'package:fl_chart/fl_chart.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle_app/constants/colors.dart';
+import 'package:wordle_app/helpers/preferences_helper.dart';
 import 'package:wordle_app/models/chart_model.dart';
 
 
@@ -15,7 +16,8 @@ Future<List<BarChartGroupData>> getSeries({required int level, required String u
 {
 
 List<ChartModel> data = [];
-final  preferences = await SharedPreferences.getInstance();
+//  preferences = await SharedPreferences.getInstance();
+final preferences = await SharedPreferencesHelper.instance;
 final scores = preferences.getStringList('chart$level$user');
 final row = preferences.getInt('row');
 if(scores == null)

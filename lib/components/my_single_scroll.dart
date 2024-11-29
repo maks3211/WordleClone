@@ -56,7 +56,7 @@ class _MySingleScrollState extends State<MySingleScroll> {
               right: 20,
               child: Container(
                 decoration: const BoxDecoration(
-                  color: lightThemeLightShade, // Kolor tła przycisku (możesz zmienić)
+                  color: lightThemeLightShade, // Kolor tła przycisku
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(

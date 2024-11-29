@@ -36,7 +36,6 @@ class InputBox extends StatelessWidget {
       child: SizedBox(
         width: 300,
         child: TextFormField(
-
           controller: controller,
           obscureText: password,
           validator: validator,

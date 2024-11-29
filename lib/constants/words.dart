@@ -12,10 +12,15 @@ Future<String> fetchWord({required int level}) async{
     }
   else
     {
-      print("NIE UDALO SIE TEGO ZALADOWAC");
       return "STORM";
     }
 }
+
+
+
+
+
+
 
 const List<String> words =
 [

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//Animacja podczas wporwadzania litery
 class Bounce extends StatefulWidget {
   const Bounce ({required this.child,required this.aniamte , super.key});
 

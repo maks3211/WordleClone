@@ -30,7 +30,6 @@ class _TileState extends State<Tile> with SingleTickerProviderStateMixin {
   void initState() {
     _animationController = AnimationController(
         duration: const Duration(milliseconds: 350), vsync: this);
-
     super.initState();
   }
 

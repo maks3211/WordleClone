@@ -104,7 +104,6 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
-
           // Jeśli wystąpił błąd
           if (snapshot.hasError) {
             return Center(child: Text('Błąd pobierania słowa.'));

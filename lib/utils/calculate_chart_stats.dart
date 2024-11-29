@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wordle_app/helpers/preferences_helper.dart';
 //uzywane tylko w momencie gdy jest wygrana gra - wywolywane w controller
 setChartStats({required int currentRow, required int level, required String user})async
 {
@@ -21,7 +22,8 @@ setChartStats({required int currentRow, required int level, required String user
 
 
   List<String> stringList = distribution.map((number) => number.toString()).toList();
-  final preferences = await SharedPreferences.getInstance();
+  //final preferences = await SharedPreferences.getInstance();
+  final preferences = await SharedPreferencesHelper.instance;
   //zapisanie 1- w którym rzedzie wygrana aktualna gra 2- przechowuje liste ilosci
   //wszystkiech wyhranych w danej probie
   preferences.setInt('row', currentRow);
@@ -31,7 +33,8 @@ setChartStats({required int currentRow, required int level, required String user
 
 
 Future<List<int>?> getStats({required int level, required String user}) async {
-  final prefs = await SharedPreferences.getInstance();
+ // final prefs = await SharedPreferences.getInstance();
+  final prefs = await SharedPreferencesHelper.instance;
   final stats = prefs.getStringList('chart$level$user');
   List<int> result = [];
   if (stats != null)

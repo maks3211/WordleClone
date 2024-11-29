@@ -9,13 +9,13 @@ class StatsList extends StatelessWidget {
     this.headerText = "Twoje wyniki",
   });
 
-  final Future<List<String>> statsFuture; // Elastyczne źródło danych
-  final String headerText; // Opcjonalny nagłówek
+  final Future<List<String>> statsFuture;
+  final String headerText;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<String>>(
-      future: statsFuture, // Przekazujemy dowolny Future
+      future: statsFuture,
       builder: (context, snapshot) {
         List<String> results = ['0', '0', '0', '0', '0'];
         if (snapshot.hasData) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//Animacja po wygranej
 class Win extends StatefulWidget {
   const Win({required this.child,required this.animate,required this.delay , super.key});
 
@@ -19,8 +19,6 @@ class _WinState extends State<Win> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     _controller = AnimationController(vsync: this, duration:const Duration(milliseconds: 1000));
-
-
     _animation = TweenSequence<Offset>(
         [
           TweenSequenceItem(tween: Tween(begin: const Offset(0,0),  end:const Offset(0,-0.75)), weight: 15),    //kolejne sekwencje animacji
@@ -42,7 +40,7 @@ class _WinState extends State<Win> with SingleTickerProviderStateMixin {
   void didUpdateWidget(covariant Win oldWidget) {
     if(widget.animate)
       {
-        Future.delayed(Duration(milliseconds: widget.delay), (){  //tutaj tez przeliczanie na podstawie poziomu
+        Future.delayed(Duration(milliseconds: widget.delay), (){
           if(mounted)
             {
               _controller.forward();

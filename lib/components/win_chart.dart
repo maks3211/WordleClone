@@ -63,7 +63,7 @@ class _WinChartState extends State<WinChart> {
                     ),
                   );
                 } else {
-                  return const SizedBox(); // Pusty widget w przypadku braku danych
+                  return const SizedBox();
                 }
               },
             );
